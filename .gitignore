@@ -1,0 +1,16 @@
+# Identifiants — voir .env.example pour le modèle
+.env
+front-laravel/.env
+api-go/.env
+
+# Dépendances / build
+vendor/
+node_modules/
+front-laravel/public/build/
+
+# Volumes & données locales
+db_data/
+
+# Système
+.DS_Store
+*.log

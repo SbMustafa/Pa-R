@@ -1,0 +1,33 @@
+# ---------------------------------------------------------------------------
+# Mode developpement : edition a chaud du front Laravel.
+#
+# Sans ce fichier, les fichiers de front-laravel/overrides/ ne sont copies dans
+# l'image qu'au moment du "docker compose build", qui recree tout un projet
+# Laravel via Composer (plusieurs minutes). Ici on monte directement nos
+# dossiers dans le conteneur : PHP etant interprete, un controleur, une vue,
+# une route ou une traduction modifie est pris en compte au simple
+# rafraichissement de la page.
+#
+# Docker Compose charge ce fichier automatiquement en plus de
+# docker-compose.yml : "docker compose up -d" suffit.
+# Pour verifier que l'image de livraison fonctionne sans ces montages :
+#   docker compose -f docker-compose.yml up -d --build
+#
+# Note : database/ n'est volontairement pas monte (overrides/ ne contient que
+# nos 2 migrations, pas celles du squelette Laravel : les monter masquerait la
+# creation de la table users).
+# ---------------------------------------------------------------------------
+services:
+  front-laravel:
+    volumes:
+      - ./front-laravel/overrides/app/Console/Commands:/var/www/html/app/Console/Commands
+      - ./front-laravel/overrides/app/Http/Controllers:/var/www/html/app/Http/Controllers
+      - ./front-laravel/overrides/app/Http/Middleware:/var/www/html/app/Http/Middleware
+      - ./front-laravel/overrides/app/Mail:/var/www/html/app/Mail
+      - ./front-laravel/overrides/app/Models:/var/www/html/app/Models
+      - ./front-laravel/overrides/app/Notifications:/var/www/html/app/Notifications
+      - ./front-laravel/overrides/app/Services:/var/www/html/app/Services
+      - ./front-laravel/overrides/routes:/var/www/html/routes
+      - ./front-laravel/overrides/resources/views:/var/www/html/resources/views
+      - ./front-laravel/overrides/lang:/var/www/html/lang
+      - ./front-laravel/overrides/bootstrap/app.php:/var/www/html/bootstrap/app.php
