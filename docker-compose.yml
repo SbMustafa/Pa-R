@@ -46,6 +46,11 @@ services:
     restart: unless-stopped
     environment:
       API_BASE_URL: http://api-go:8080/api
+      # Adresse publique du site lui-même : utilisée par Laravel pour générer des
+      # liens absolus (ex. lien de réinitialisation de mot de passe envoyé par
+      # email) en dehors d'un contexte de requête HTTP, comme les commandes
+      # artisan planifiées (adhesions:rappels).
+      APP_URL: http://localhost:8000
       # Configuration SMTP : les valeurs viennent du fichier .env à la racine du
       # projet (non versionné, voir .env.example). Ces variables d'environnement
       # sont prioritaires sur le .env interne à Laravel, donc sans fichier .env on
