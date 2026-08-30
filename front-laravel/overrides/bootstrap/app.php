@@ -13,6 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Le site est servi derrière le reverse proxy Caddy (TLS + domaine
+        // public) : sans ça, Laravel ignore les en-têtes X-Forwarded-* et
+        // génère des liens/redirections en http:// au lieu de https://.
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'role' => EnsureRole::class,
         ]);

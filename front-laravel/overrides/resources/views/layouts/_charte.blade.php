@@ -12,6 +12,8 @@
             --nmw-vert-fonce: #1a5c42;
             --nmw-vert-clair: #e7f3ec;
             --nmw-encre: #12302a;
+            --nmw-sidebar: #1c4636;
+            --nmw-sidebar-actif: #2f9169;
             --nmw-fond: #f4f6f5;
             --nmw-bordure: #e4e9e6;
             --nmw-texte: #1b2420;
@@ -35,10 +37,18 @@
         .nmw-shell { min-height: 100vh; }
         .nmw-sidebar {
             width: 268px;
-            background: var(--nmw-encre);
-            color: #cddbd4;
+            /* !important nécessaire : Bootstrap force `background-color: transparent
+               !important` sur .offcanvas-lg à partir de 992px (cf. bootstrap.min.css),
+               ce qui écrasait silencieusement la couleur de fond ici. */
+            background: var(--nmw-sidebar) !important;
+            color: #fff;
             display: flex;
             flex-direction: column;
+            /* Le lissage "antialiased" (hérité de body) amincit le texte clair sur
+               fond sombre au lieu de l'épaissir : on revient au lissage par défaut
+               du navigateur, plus lisible pour du texte blanc sur fond foncé. */
+            -webkit-font-smoothing: auto;
+            -moz-osx-font-smoothing: auto;
         }
         @media (min-width: 992px) {
             .nmw-shell { display: flex; }
@@ -51,36 +61,41 @@
             padding: 1.15rem 1.25rem;
             border-bottom: 1px solid rgba(255, 255, 255, .07);
         }
-        .nmw-brand-nom { color: #fff; font-weight: 600; line-height: 1.15; display: block; font-size: .95rem; }
-        .nmw-brand-sous { color: #7f978d; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+        .nmw-brand-nom { color: #fff !important; font-weight: 600; line-height: 1.15; display: block; font-size: .95rem; }
+        .nmw-brand-sous { color: rgba(255, 255, 255, .85) !important; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
         .nmw-logo {
             width: 36px; height: 36px; flex: 0 0 36px;
             border-radius: 10px;
-            background: var(--nmw-vert);
-            color: #fff; font-weight: 700; font-size: .8rem;
+            background: #fff;
             display: flex; align-items: center; justify-content: center;
+            padding: 4px;
         }
+        .nmw-logo img { width: 100%; height: 100%; object-fit: contain; }
 
         .nmw-nav { padding: 1rem .75rem; flex: 1; overflow-y: auto; }
         .nmw-nav-titre {
-            color: #6d857b; font-size: .68rem; font-weight: 600;
+            color: rgba(255, 255, 255, .85) !important; font-size: .72rem; font-weight: 700;
             text-transform: uppercase; letter-spacing: .09em;
             margin: 1.1rem .75rem .4rem;
         }
         .nmw-nav-titre:first-child { margin-top: 0; }
-        .nmw-lien {
+        .nmw-lien,
+        .nmw-lien:link,
+        .nmw-lien:visited {
             display: flex; align-items: center; gap: .7rem;
-            padding: .58rem .75rem;
+            padding: .6rem .75rem;
             margin-bottom: 2px;
             border-radius: 9px;
-            color: #cddbd4;
+            color: #fff !important;
             text-decoration: none;
-            font-size: .9rem;
-            transition: background .12s ease, color .12s ease;
+            font-size: .92rem;
+            font-weight: 600;
+            border-left: 3px solid transparent;
+            transition: background .12s ease, color .12s ease, border-color .12s ease;
         }
-        .nmw-lien:hover { background: rgba(255, 255, 255, .06); color: #fff; }
-        .nmw-lien.is-active { background: var(--nmw-vert); color: #fff; font-weight: 500; }
-        .nmw-lien svg { width: 18px; height: 18px; flex: 0 0 18px; opacity: .9; }
+        .nmw-lien:hover, .nmw-lien:visited:hover { background: rgba(255, 255, 255, .18); color: #fff !important; }
+        .nmw-lien.is-active, .nmw-lien.is-active:visited { background: var(--nmw-sidebar-actif) !important; color: #fff !important; font-weight: 700; border-left-color: #fff; }
+        .nmw-lien svg { width: 19px; height: 19px; flex: 0 0 19px; stroke-width: 2; stroke: #fff; }
 
         .nmw-sidebar-pied { padding: .75rem; border-top: 1px solid rgba(255, 255, 255, .07); }
 

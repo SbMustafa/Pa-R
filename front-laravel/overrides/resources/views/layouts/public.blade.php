@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NO MORE WASTE - @yield('title', __('Association de lutte contre le gaspillage'))</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}">
     <meta name="description" content="{{ __("NO MORE WASTE récupère chaque jour les invendus des commerçants et les redistribue par des tournées de distribution. Adhérez pour accéder à nos services.") }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     @include('layouts._charte')
@@ -67,7 +68,7 @@
 <header class="nmw-pub-entete">
     <div class="container">
         <a href="{{ url('/') }}" class="nmw-pub-marque">
-            <span class="nmw-logo">NW</span>
+            <span class="nmw-logo"><img src="{{ asset('images/logo.svg') }}" alt="NO MORE WASTE"></span>
             <span>NO MORE WASTE</span>
         </a>
 
@@ -109,7 +110,7 @@
         <div class="row g-4">
             <div class="col-md-5">
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    <span class="nmw-logo">NW</span>
+                    <span class="nmw-logo"><img src="{{ asset('images/logo.svg') }}" alt="NO MORE WASTE"></span>
                     <span class="text-white fw-semibold">NO MORE WASTE</span>
                 </div>
                 <p class="mb-0">{{ __("Association humanitaire de lutte contre le gaspillage, créée en 2013 à Paris.") }}</p>

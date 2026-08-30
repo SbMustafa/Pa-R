@@ -1,0 +1,3 @@
+nomorewaste.cloud, www.nomorewaste.cloud {
+	reverse_proxy front-laravel:80
+}

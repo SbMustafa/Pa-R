@@ -8,7 +8,7 @@ services:
       MYSQL_PASSWORD: nmw_password
       MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "3307:3306"
+      - "127.0.0.1:3307:3306"
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
@@ -31,7 +31,7 @@ services:
       mysql:
         condition: service_healthy
     ports:
-      - "8081:8080"
+      - "127.0.0.1:8081:8080"
 
   # Serveur SMTP de développement : capture les mails envoyés par l'appli
   # (rappels de renouvellement) et les affiche sur http://localhost:8025
@@ -39,18 +39,19 @@ services:
     image: axllent/mailpit:latest
     restart: unless-stopped
     ports:
-      - "8025:8025"
+      - "127.0.0.1:8025:8025"
 
   front-laravel:
     build: ./front-laravel
     restart: unless-stopped
     environment:
       API_BASE_URL: http://api-go:8080/api
-      # Adresse publique du site lui-même : utilisée par Laravel pour générer des
-      # liens absolus (ex. lien de réinitialisation de mot de passe envoyé par
-      # email) en dehors d'un contexte de requête HTTP, comme les commandes
-      # artisan planifiées (adhesions:rappels).
-      APP_URL: http://localhost:8000
+      # Adresse publique du site lui-même : utilisée par Laravel pour générer
+      # des liens absolus (ex. lien de réinitialisation de mot de passe envoyé
+      # par email) en dehors d'un contexte de requête HTTP, comme les
+      # commandes artisan planifiées (adhesions:rappels). Servi en HTTPS via
+      # le reverse proxy Caddy (voir service "caddy" ci-dessous).
+      APP_URL: https://nomorewaste.cloud
       # Configuration SMTP : les valeurs viennent du fichier .env à la racine du
       # projet (non versionné, voir .env.example). Ces variables d'environnement
       # sont prioritaires sur le .env interne à Laravel, donc sans fichier .env on
@@ -73,5 +74,23 @@ services:
     ports:
       - "8000:80"
 
+  # Reverse proxy public : termine le HTTPS (certificat Let's Encrypt obtenu
+  # et renouvelé automatiquement) pour nomorewaste.cloud et renvoie vers
+  # front-laravel en interne. C'est lui qui écoute sur les ports 80/443.
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - front-laravel
+
 volumes:
   db_data:
+  caddy_data:
+  caddy_config:

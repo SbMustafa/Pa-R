@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NO MORE WASTE - @yield('title', __('Administration'))</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo.svg') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     @include('layouts._charte')
 </head>
@@ -68,7 +69,7 @@
     <div class="nmw-shell">
         <aside class="nmw-sidebar offcanvas-lg offcanvas-start" id="nmwSidebar" tabindex="-1">
             <div class="nmw-brand">
-                <span class="nmw-logo">NW</span>
+                <span class="nmw-logo"><img src="{{ asset('images/logo.svg') }}" alt="NO MORE WASTE"></span>
                 <span>
                     <span class="nmw-brand-nom">NO MORE WASTE</span>
                     <span class="nmw-brand-sous">{{ $utilisateur->isAdmin() ? __('Back-office') : __('Espace adhérent') }}</span>
@@ -142,7 +143,7 @@
 @else
     <div class="nmw-auth">
         <div class="nmw-auth-entete">
-            <span class="nmw-logo">NW</span> NO MORE WASTE
+            <span class="nmw-logo"><img src="{{ asset('images/logo.svg') }}" alt="NO MORE WASTE"></span> NO MORE WASTE
         </div>
 
         <div class="nmw-auth-corps">

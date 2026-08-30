@@ -31,3 +31,4 @@ services:
       - ./front-laravel/overrides/resources/views:/var/www/html/resources/views
       - ./front-laravel/overrides/lang:/var/www/html/lang
       - ./front-laravel/overrides/bootstrap/app.php:/var/www/html/bootstrap/app.php
+      - ./front-laravel/overrides/public/images:/var/www/html/public/images
